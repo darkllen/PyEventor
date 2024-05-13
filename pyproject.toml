@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "pyeventor"
+version = "0.1.0"
+description = ""
+authors = ["darkllen <yankiniigor@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+sqlalchemy = "^2.0.30"
+psycopg2 = "^2.9.9"
+asyncpg = "^0.29.0"
+greenlet = "^3.0.3"
+
+[tool.poetry.group.dev.dependencies]
+ipykernel = "^6.29.4"
+mypy = "^1.10.0"
+ruff = "^0.4.4"
+pytest-asyncio = "^0.23.6"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
