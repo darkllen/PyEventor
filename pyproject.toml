@@ -17,7 +17,30 @@ ipykernel = "^6.29.4"
 mypy = "^1.10.0"
 ruff = "^0.4.4"
 pytest-asyncio = "^0.23.6"
+build = "^1.2.1"
+uv = "^0.1.42"
+twine = "^5.0.0"
+sphinx = "^7.3.7"
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[project]
+name = "pyeventor"
+version = "0.1"
+authors = [
+  { name="Ihor Yankin", email="yankiniigor@gmail.com" },
+]
+description = "Event sourcing package"
+readme = "README.md"
+requires-python = ">=3.9"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+Homepage = "https://github.com/darkllen/pyeventor"
+Issues = "https://github.com/darkllen/pyeventor/issues"
