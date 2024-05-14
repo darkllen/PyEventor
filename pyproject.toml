@@ -21,6 +21,7 @@ build = "^1.2.1"
 uv = "^0.1.42"
 twine = "^5.0.0"
 sphinx = "^7.3.7"
+sphinx-rtd-theme = "^2.0.0"
 
 [build-system]
 requires = ["poetry-core"]
