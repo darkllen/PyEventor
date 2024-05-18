@@ -1,5 +1,4 @@
 import pytest
-from unittest.mock import MagicMock
 
 # Assuming these imports are from your project's modules
 from pyeventor.event import Event

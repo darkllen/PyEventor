@@ -4,7 +4,6 @@ from unittest.mock import MagicMock, patch
 # Assuming these imports are from your project's modules
 from pyeventor.event import Event, Snapshot
 from pyeventor.aggregate import Aggregate, Projection
-from pyeventor.handler import EventHandler
 from pyeventor.event_store import EventStore
 from contextlib import contextmanager
 

@@ -1,10 +1,9 @@
 import pytest
-from unittest.mock import MagicMock, patch
+from unittest.mock import patch
 
 # Assuming these imports are from your project's modules
 from pyeventor.event import Event, Snapshot
 from pyeventor.asyncio.aggregate import AsyncAggregate, AsyncProjection
-from pyeventor.handler import EventHandler
 from pyeventor.asyncio.event_store import AsyncEventStore
 from contextlib import asynccontextmanager
 

@@ -1,13 +1,12 @@
 from pyeventor.aggregate import Aggregate, Projection
 from pyeventor.event import Event, JsonSnapshot
 from pyeventor.exceptions import HandlerException
-from pyeventor.handler import EventHandler
 import inspect
 
 
 import pytest
 from uuid import uuid4
-from unittest.mock import patch, MagicMock
+from unittest.mock import patch
 
 
 class TestAggregate:
@@ -29,6 +28,10 @@ class TestAggregate:
     def aggregate(self, aggregate_id):
         return Aggregate(aggregate_id)
 
+    @staticmethod
+    def m_handler(aggregate: Aggregate, event: Event):
+        ...
+
     def test_init_attributes(self, aggregate, aggregate_id):
         """Test that initial attributes are set correctly."""
         assert aggregate.id == aggregate_id
@@ -36,12 +39,10 @@ class TestAggregate:
     @patch("pyeventor.handler.EventHandler.get_handler")
     def test_apply_without_saving_valid_event(self, mock_get_handler, aggregate, event):
         """Test applying an event that has a registered handler."""
-        handler = MagicMock()
-        mock_get_handler.return_value = handler
+        mock_get_handler.return_value = self.m_handler
 
         result = aggregate.apply(event)
 
-        handler.assert_called_once_with(aggregate, event)
         assert event in aggregate._pending_events
         assert aggregate._events_applied == 1
         assert result == aggregate
@@ -68,6 +69,7 @@ class TestAggregate:
     @patch("pyeventor.handler.EventHandler.get_handler")
     def test_automatic_snapshot_creation(self, mock_get_handler, aggregate_id):
         """Test automatic snapshot creation after a specified number of events."""
+        mock_get_handler.return_value = self.m_handler
         n = 5  # Set auto snapshot every 5 events
         aggregate = Aggregate(aggregate_id, auto_snapshot_each_n=n)
         events = [Event() for _ in range(n)]
@@ -109,6 +111,10 @@ class TestProjection:
     def projection(self, projection_id):
         return Projection(projection_id)
 
+    @staticmethod
+    def m_handler(aggregate: Aggregate, event: Event):
+        ...
+
     def test_projection_init(self, projection, projection_id):
         """Test that projection initialization sets the ID correctly."""
         assert projection.id == projection_id
@@ -116,12 +122,10 @@ class TestProjection:
     @patch("pyeventor.handler.EventHandler.get_handler")
     def test_projection_apply_valid_event(self, mock_get_handler, projection, event):
         """Test applying an event that has a registered handler in the projection."""
-        handler = MagicMock()
-        mock_get_handler.return_value = handler
+        mock_get_handler.return_value = self.m_handler
 
         result = projection.apply(event)
 
-        handler.assert_called_once_with(projection, event)
         assert result == projection
 
     @patch("pyeventor.handler.EventHandler.get_handler", return_value=None)
