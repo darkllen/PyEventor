@@ -1,5 +1,5 @@
 from abc import ABC
-from pyeventor.event import Event, Snapshot, JsonSnapshot, SnapshotI
+from pyeventor.event import Event, Snapshot, JsonSnapshot
 from uuid import uuid4
 from pyeventor.exceptions import HandlerException
 from typing import Generic, TypeVar, Optional, Protocol, Type
@@ -30,8 +30,13 @@ class AttributesI(Protocol, Generic[IdTypeHint]):
 class ApplyI(Protocol):
     def _apply_without_saving(self, event: Event) -> "ApplyI":
         if handler := EventHandler.get_handler(type(self), type(event)):
-            handler(self, event)
-            return self
+            for _, v in inspect.signature(handler).parameters.items():
+                if issubclass(v.annotation, self.__class__):
+                    handler(event, self)
+                    return self
+                if issubclass(v.annotation, Event):
+                    handler(self, event)
+                    return self
         raise HandlerException(f"handler for {event.__class__.__name__} not found")
 
     @abstractmethod
