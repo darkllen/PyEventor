@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pyeventor"
-version = "0.1.0"
+version = "1.0"
 description = ""
 authors = ["darkllen <yankiniigor@gmail.com>"]
 readme = "README.md"
@@ -29,7 +29,7 @@ build-backend = "poetry.core.masonry.api"
 
 [project]
 name = "pyeventor"
-version = "0.1"
+version = "1.0"
 authors = [
   { name="Ihor Yankin", email="yankiniigor@gmail.com" },
 ]
