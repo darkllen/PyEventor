@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import Generic, TypeVar, List, Optional, Type, Protocol
 from pyeventor.event import Event, Snapshot
-from pyeventor.aggregate import Aggregate, Projection, IdTypeHint
+from pyeventor.aggregate import Projection, IdTypeHint
 from pyeventor.asyncio.aggregate import AsyncAggregate
 from pyeventor.handler import EventHandler
 from contextlib import asynccontextmanager

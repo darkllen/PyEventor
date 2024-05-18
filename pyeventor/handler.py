@@ -3,7 +3,7 @@ from collections import defaultdict
 
 import inspect
 from typing import Type, Callable, Optional
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, get_args, Any
 
 if TYPE_CHECKING:
     from pyeventor.aggregate import Aggregate
@@ -46,12 +46,14 @@ class EventHandler:
         cls.__event_handlers__[copy_to] = cls.get_aggregate_handlers(copy_from)
 
     @classmethod
-    def get_event_class_by_name(cls, event_class_name: str) -> Type[Event]:
+    def get_event_class_by_name(cls, event_class_name: str) -> tuple[Type[Event], Any]:
         for event_dict in cls.__event_handlers__.values():
             for event_class in event_dict.keys():
                 if event_class.__name__ == event_class_name:
-                    return event_class
-        return None
+                    type_data = get_args(event_class.__orig_bases__[0])[1]
+                    return event_class, type_data
+
+        return None, None
 
 
 # TODO change back to names from classes as more stable option

@@ -1,14 +1,12 @@
 from abc import ABC, abstractmethod
-from pyeventor.event import Event, Snapshot, JsonSnapshot, SnapshotI
-from uuid import uuid4
+from pyeventor.event import Event
 from pyeventor.exceptions import HandlerException
-from typing import Generic, TypeVar, Optional, Protocol, Type
+from typing import Optional, Protocol
 from pyeventor.handler import EventHandler
 import inspect
 from pyeventor.aggregate import (
     AttributesI,
     SnapshotFromJsonI,
-    SnapshotCreateI,
     IdTypeHint,
     SnapshotCreateJsonI,
 )
@@ -17,8 +15,13 @@ from pyeventor.aggregate import (
 class ApplyAsyncI(Protocol):
     async def _apply_without_saving(self, event: Event) -> "ApplyAsyncI":
         if handler := EventHandler.get_handler(type(self), type(event)):
-            await handler(self, event)
-            return self
+            for _, v in inspect.signature(handler).parameters.items():
+                if issubclass(v.annotation, self.__class__):
+                    await handler(event, self)
+                    return self
+                if issubclass(v.annotation, Event):
+                    await handler(self, event)
+                    return self
         raise HandlerException(f"handler for {event.__class__.__name__} not found")
 
     @abstractmethod

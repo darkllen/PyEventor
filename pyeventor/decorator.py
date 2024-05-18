@@ -2,7 +2,7 @@ from pyeventor.event import Event
 from pyeventor.aggregate import Aggregate, Projection
 from pyeventor.exceptions import RegisterException
 from pyeventor.handler import EventHandler
-
+from pyeventor.asyncio.aggregate import AsyncAggregate
 
 from typing import Union, Type, Callable
 
@@ -17,7 +17,7 @@ def register_handler(*register_objects: Union[Type[Event], Type[Aggregate]]):
         ):
             if all(
                 map(
-                    lambda x: isinstance(x, type) and issubclass(x, Event),
+                    lambda x: isinstance(x, type) and issubclass(x, (Event)),
                     register_objects,
                 )
             ):
@@ -34,7 +34,8 @@ def register_handler(*register_objects: Union[Type[Event], Type[Aggregate]]):
                     EventHandler.set_handler(handler_class, event_class, self.handler)
             elif all(
                 map(
-                    lambda x: isinstance(x, type) and issubclass(x, Aggregate),
+                    lambda x: isinstance(x, type)
+                    and issubclass(x, (Aggregate, AsyncAggregate)),
                     register_objects,
                 )
             ):

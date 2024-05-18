@@ -6,8 +6,7 @@ from pyeventor.event_store import (
     Snapshot,
     AggregateHint,
 )
-from typing import Type, List, Optional, Generic
-from datetime import datetime
+from typing import Type, List, Optional
 from contextlib import contextmanager
 
 
@@ -70,4 +69,4 @@ class InMemoryEventStore(EventStore[AggregateHint, SequenceHint, IdTypeHint]):
                 snapshots = [s for s in snapshots if s[1].sequence_order <= load_at]
             if snapshots:
                 return snapshots[-1][1]
-        return None, None
+        return None

@@ -1,17 +1,16 @@
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.future import select
+import json
 from sqlalchemy import (
     Column,
     Integer,
     String,
     DateTime,
     JSON,
-    ForeignKey,
     Table,
     MetaData,
 )
-import asyncio
 from datetime import datetime
 from contextlib import asynccontextmanager
 from pyeventor.asyncio.event_store import (
@@ -73,12 +72,13 @@ class PostgresAsyncEventStore(
 
     async def save_events(self, events: List[Event], aggregate_id: IdTypeHint) -> None:
         async with self.transaction() as session:
+
             for event in events:
                 await session.execute(
                     event_table.insert().values(
                         aggregate_id=aggregate_id,
                         type=event.__class__.__name__,
-                        data=event.data,
+                        data=json.dumps(event.data),
                         sequence_order=event.sequence_order,
                     )
                 )
@@ -118,8 +118,10 @@ class PostgresAsyncEventStore(
 
             events = []
             for r in result.all():
-                event_class = EventHandler.get_event_class_by_name(r[2])
-                event = event_class(data=r[3], sequence_order=r[4])
+                event_class, event_data = EventHandler.get_event_class_by_name(r[2])
+                event = event_class(
+                    data=event_data(**json.loads(r[3])), sequence_order=r[4]
+                )
                 events.append(event)
 
             return events

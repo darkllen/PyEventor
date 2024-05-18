@@ -5,7 +5,7 @@ from datetime import datetime
 import inspect
 
 if TYPE_CHECKING:
-    from pyeventor.aggregate import Aggregate, SnapshotCreateI
+    from pyeventor.aggregate import SnapshotCreateI
 
 
 SequenceHint = TypeVar("SequenceHint")
