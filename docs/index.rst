@@ -5,16 +5,37 @@
 
 Welcome to pyeventor's documentation!
 =====================================
-
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
+
+   source/about
 
 
-
-Indices and tables
+How to start
 ==================
+.. toctree::
+   :maxdepth: 2
 
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+   source/installation
+   source/start
+   source/examples
+
+Event Sourcing
+==================
+.. toctree::
+   :maxdepth: 2   
+   
+   source/aggregate
+   source/projection
+   source/snapshot
+   source/event_store
+
+Extensions
+==================
+.. toctree::
+   :maxdepth: 2   
+   
+   source/asyncio
+   source/plugins
+
+
