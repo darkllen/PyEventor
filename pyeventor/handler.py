@@ -54,6 +54,3 @@ class EventHandler:
                     return event_class, type_data
 
         return None, None
-
-
-# TODO change back to names from classes as more stable option

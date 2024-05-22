@@ -65,7 +65,3 @@ class JsonSnapshot(Snapshot[SequenceHint, dict]):
             if not k.startswith("_") and not inspect.ismethod(getattr(aggregate, k))
         }
         return JsonSnapshot(data=attributes)
-
-
-# TODO all fields became a part of event data somehow (?)
-# TODO better sequence choosing

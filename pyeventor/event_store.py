@@ -189,11 +189,3 @@ class EventStore(
             aggregate.apply(actual_event)
 
         return aggregate
-
-
-# TODO save snapshots on some event
-# TODO transaction from up to down
-
-# projection protocol
-# snapshot protocol
-# aggregate protocol

@@ -129,6 +129,3 @@ class Projection(ABC, AttributesI[IdTypeHint], ApplyI, SnapshotFromJsonI[IdTypeH
     def apply(self, event: Event) -> "Projection":
         self._apply_without_saving(event)
         return self
-
-
-# TODO prevent using AggregateB as AggregateA (introducing create event with type of aggregate)

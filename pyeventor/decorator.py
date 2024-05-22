@@ -85,6 +85,3 @@ def projection(aggregate_class: Type[Aggregate], events: list[Type[Event]]):
         return projection_class
 
     return wrapper
-
-
-# TODO restrict projection registrate extra event handlers
